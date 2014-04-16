@@ -62,7 +62,13 @@
 
     // determine what type of formatting we need to do
     function formatNumeral (n, format, roundingFunction) {
-        var output;
+        var output, prefix, suffix, start, end;
+
+        if ((start = format.indexOf('{')) > -1 && (end = format.indexOf('}')) > -1) {
+            prefix = format.substr(0, start);
+            suffix = format.substr(end + 1);
+            format = format.substring(start + 1, end);
+        } else prefix = suffix = '';
 
         // figure out what kind of format we are dealing with
         if (format.indexOf('$') > -1) { // currency!!!!!
@@ -76,7 +82,7 @@
         }
 
         // return string
-        return output;
+        return prefix + output + suffix;
     }
 
     // revert to number
